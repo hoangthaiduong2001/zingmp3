@@ -13,8 +13,9 @@ const SidebarLeft = () => {
            <img src={logo} alt='logo' className='w-[120px] h-10'/>
         </div>
         <div className='flex flex-col'>
-            {sidebarMenu.map(item => (
+            {sidebarMenu.map((item, index) => (
                 <NavLink
+                   key={index}
                    to={item.path}
                    className={({isActive}) => isActive ? activeStyle : notActiveStyle}
                 >
