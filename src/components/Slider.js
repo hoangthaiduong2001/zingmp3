@@ -5,7 +5,7 @@ import * as action from '../store/actions'
 
 
 const Slider = () => {
-
+  const audioEl = new Audio()
   const { banner } = useSelector(state => state.app)
   const dispatch = useDispatch()
   useEffect(() => {
@@ -48,6 +48,7 @@ const Slider = () => {
   const handleClickBanner = (item) => {
     if(item ?.type === 1){
       dispatch(action.setCurSongId(item.encodeId))
+      dispatch(action.play(true))
     }
   }
   return (
