@@ -2,13 +2,16 @@ import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { GetArrSlider } from '../ultis/function'
 import * as action from '../store/actions'
+import { useNavigate } from 'react-router-dom'
 
 
 const Slider = () => {
   const audioEl = new Audio()
   const { banner } = useSelector(state => state.app)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   useEffect(() => {
+    //animation for slide
     const sliderEls = document.getElementsByClassName('slider-item')
     let min = 0;
     let max = 2;
@@ -49,6 +52,9 @@ const Slider = () => {
     if(item ?.type === 1){
       dispatch(action.setCurSongId(item.encodeId))
       dispatch(action.play(true))
+    } else if(item?.type === 4){
+      const albumPath = item?.link?.split('.')[0]
+      navigate(albumPath)
     }
   }
   return (

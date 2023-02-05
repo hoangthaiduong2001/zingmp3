@@ -5,14 +5,13 @@ import icons from "../ultis/icons";
 
 const { AiFillHeart, AiOutlineHeart, BsThreeDots, MdSkipNext, MdSkipPrevious, CiRepeat, BsPlayFill, BsPauseFill, CiShuffle } = icons;
 const Player = () => {
-  const { curSongId, isPlaying } = useSelector((state) => state.music);
+  const { curSongId } = useSelector((state) => state.music);
   const [songInfo, setsongInfo] = useState(null);
-  // const [isPlaying, setIsPlaying] = useState(false)
-  console.log(isPlaying)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
     const fetchDetailSong = async () => {
-      const response = await apis.getDetailSong(curSongId);
+      const response = await apis.apiGetDetailSong(curSongId);
       if (response.data.err === 0) {
         setsongInfo(response.data.data);
       }
@@ -21,6 +20,7 @@ const Player = () => {
   }, [curSongId]);
 
   const handleTogglePlaying = () => { 
+    setIsPlaying(prve => !prve)
   }
 
   return (
