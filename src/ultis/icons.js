@@ -5,6 +5,7 @@ import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { AiOutlineSearch, AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsThreeDots, BsPauseFill, BsPlayFill } from 'react-icons/bs'
 import { CiRepeat, CiShuffle } from 'react-icons/ci'
+import { FiMusic } from 'react-icons/fi'
 import { RxVideo} from 'react-icons/rx'
 import { BiWindows } from 'react-icons/bi'
 import { IoVolumeMediumOutline } from 'react-icons/io'
@@ -25,7 +26,8 @@ const icons = {
     MdSkipPrevious,
     CiShuffle,
     BsPlayFill,
-    BsPauseFill
+    BsPauseFill,
+    FiMusic
 }
 
 export default icons
