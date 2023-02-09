@@ -1,13 +1,18 @@
 import React, { memo } from 'react'
 import icons from '../ultis/icons'
 import moment from 'moment/moment'
+import { useDispatch } from 'react-redux'
+import * as actions from '../store/actions'
 
 const { FiMusic } = icons
 
 const List = ({ songData }) => {
-    console.log(songData)
+  const dispatch = useDispatch()
   return (
-    <div className='flex justify-between items-center p-[10px]'>
+    <div 
+    onClick={() => dispatch(actions.setCurSongId(songData?.encodeId))}
+    className='flex justify-between items-center p-[10px] border-t border-[rgba(0,0,0,0.05)] hover:bg-[#DDE4E4] cursor-pointer'
+    >
         <div className='flex gap-3 items-center flex-1'>
             <span><FiMusic /></span>
             <img src={songData?.thumbnail} className="w-10 h-10 object-cover rounded-md"/>
