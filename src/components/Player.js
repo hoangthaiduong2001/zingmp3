@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as apis from "../apis";
 import icons from "../ultis/icons";
@@ -20,7 +20,7 @@ const {
   BiVolumeFull,
 } = icons;
 const Player = () => {
-  const audioEl = new Audio()
+  const audioEl = useRef(new Audio())
   const { curSongId, isPlaying } = useSelector(state => state.music);
   const [songInfo, setsongInfo] = useState(null);
   const [source, setSource] = useState(null);
@@ -43,19 +43,19 @@ const Player = () => {
   }, [curSongId]);
 
   useEffect(() => {
-    dispatch(actions.play(true));
-    audioEl.src = source;
-    audioEl.load();
-    audioEl.play();
-  }, [curSongId]);
+    audioEl.current.pause()
+    audioEl.current.src = source;
+    audioEl.current.load()
+    if(isPlaying) audioEl.current.play()
+  }, [curSongId, source]);
 
   const handleTogglePlaying = () => {
     if (isPlaying) {
       dispatch(actions.play(false));
-      audioEl.pause();
+      audioEl.current.pause();
     } else {
       dispatch(actions.play(true));
-      audioEl.play();
+      audioEl.current.play();
     }
   };
 
