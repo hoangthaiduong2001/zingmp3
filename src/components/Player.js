@@ -28,6 +28,7 @@ const Player = () => {
   const [curSeconds, setCurSeconds] = useState(0);
   const dispatch = useDispatch();
   const thumbRef = useRef();
+  const trackef = useRef();
 
   useEffect(() => {
     const fetchDetailSong = async () => {
@@ -41,12 +42,12 @@ const Player = () => {
       if (res2.data.err === 0) {
         audio.pause();
         setAudio(new Audio(res2.data.data["128"]));
-      } else{
-        setAudio(new Audio())
-        dispatch(actions.play(false))
-        setCurSeconds(0)
-        toast.warn(res2.data.msg)
-        thumbRef.current.style.css = `right: 100%`
+      } else {
+        setAudio(new Audio());
+        dispatch(actions.play(false));
+        setCurSeconds(0);
+        toast.warn(res2.data.msg);
+        thumbRef.current.style.css = `right: 100%`;
       }
     };
     fetchDetailSong();
@@ -54,16 +55,18 @@ const Player = () => {
 
   useEffect(() => {
     intervalId && clearInterval(intervalId);
+    audio.pause();
     audio.load();
     if (isPlaying) {
       audio.play();
       intervalId = setInterval(() => {
-        let percent = Math.round((audio.currentTime * 10000) / songInfo.duration) / 100;
+        let percent =
+          Math.round((audio.currentTime * 10000) / songInfo.duration) / 100;
         thumbRef.current.style.cssText = `right: ${100 - percent}%`;
         setCurSeconds(Math.round(audio.currentTime));
       }, 100);
     }
-  }, [audio, isPlaying]);
+  }, [audio]);
 
   const handleTogglePlaying = () => {
     if (isPlaying) {
@@ -74,6 +77,13 @@ const Player = () => {
       audio.play();
     }
   };
+  const hanldeClickProgessbar = (e) => {
+    const trackRect = trackef.current.getBoundingClientRect()
+    const percent = Math.round((e.clientX - trackRect.left) * 10000 / trackRect.width) / 100
+    thumbRef.current.style.cssText = `right: ${100 - percent}%`
+    audio.currentTime = percent * songInfo.duration / 100
+    setCurSeconds(Math.round(percent * songInfo.duration / 100))
+  }
 
   return (
     <div className="bg-main-400 px-5 h-full flex">
@@ -129,10 +139,14 @@ const Player = () => {
           <span className="pb-1">
             {moment.utc(curSeconds * 1000).format("mm:ss")}
           </span>
-          <div className="w-3/5 h-[3px] rounded-l-full rounded-r-full relative bg-[rgba(0,0,0,0.1)]">
+          <div 
+          className="w-3/5 h-[3px] hover:h-[8px] rounded-l-full rounded-r-full relative bg-[rgba(0,0,0,0.1)] cursor-pointer"
+          onClick={hanldeClickProgessbar}
+          ref={trackef}
+          >
             <div
               ref={thumbRef}
-              className="absolute top-0 left-0 h-[3px] rounded-l-full rounded-r-full bg-[#0e8080]"
+              className="absolute top-0 left-0 bottom-0 rounded-l-full rounded-r-full bg-[#0e8080]"
             ></div>
           </div>
           <span className="pb-1">
