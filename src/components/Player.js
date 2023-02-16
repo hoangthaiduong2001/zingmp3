@@ -22,10 +22,11 @@ const {
 } = icons;
 var intervalId;
 const Player = () => {
-  const { curSongId, isPlaying } = useSelector((state) => state.music);
+  const { curSongId, isPlaying, songs } = useSelector((state) => state.music);
   const [songInfo, setsongInfo] = useState(null);
   const [audio, setAudio] = useState(new Audio());
   const [curSeconds, setCurSeconds] = useState(0);
+  const [isShuffle, setIsShuffle] = useState(false)
   const dispatch = useDispatch();
   const thumbRef = useRef();
   const trackef = useRef();
@@ -43,6 +44,7 @@ const Player = () => {
         audio.pause();
         setAudio(new Audio(res2.data.data["128"]));
       } else {
+        audio.pause();
         setAudio(new Audio());
         dispatch(actions.play(false));
         setCurSeconds(0);
@@ -85,6 +87,28 @@ const Player = () => {
     setCurSeconds(Math.round(percent * songInfo.duration / 100))
   }
 
+  const handleNextSong = () => {
+    if(songs){
+      let currentSongIndex
+      songs.forEach((item, index) => {
+        if(item.encodeId === curSongId) currentSongIndex = index
+      })
+      dispatch(actions.setCurSongId(songs[currentSongIndex + 1].encodeId))
+      dispatch(actions.play(true))
+    }
+  }
+
+  const handlePrveSong = () => {
+    if(songs){
+      let currentSongIndex
+      songs.forEach((item, index) => {
+        if(item.encodeId === curSongId) currentSongIndex = index
+      })
+      dispatch(actions.setCurSongId(songs[currentSongIndex - 1].encodeId))
+      dispatch(actions.play(true))
+    }
+  }
+
   return (
     <div className="bg-main-400 px-5 h-full flex">
       <div className="w-[30%] flex-auto flex gap-3 items-center">
@@ -112,10 +136,16 @@ const Player = () => {
       </div>
       <div className="w-[40%] flex-auto flex flex-col items-center gap-2 justify-center py-2">
         <div className="flex gap-8 justify-center items-center pt-5">
-          <span className="cursor-pointer" title="Bật phát ngẫu nhiên">
+          <span 
+          className={`cursor-pointer ${isShuffle && 'text-main-500'}`}
+          title="Bật phát ngẫu nhiên"
+          onClick={() => setIsShuffle(prve => !prve)}
+          >
             <CiShuffle size={24} />
           </span>
-          <span className="cursor-pointer">
+          <span className={`${!songs ? 'text-gray-400' : 'cursor-pointer'}`}
+          onClick={handlePrveSong}
+          >
             <MdSkipPrevious size={24} />
           </span>
           <span
@@ -128,7 +158,9 @@ const Player = () => {
               <BsFillPlayFill size={30} />
             )}
           </span>
-          <span className="cursor-pointer">
+          <span className={`${!songs ? 'text-gray-400' : 'cursor-pointer'}`}
+          onClick={handleNextSong}
+          >
             <MdSkipNext size={24} />
           </span>
           <span className="cursor-pointer" title="Bật phát lại tất cả">

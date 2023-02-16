@@ -52,9 +52,13 @@ const Slider = () => {
     if(item ?.type === 1){
       dispatch(action.setCurSongId(item.encodeId))
       dispatch(action.play(true))
+      dispatch(action.setPlaylist(null))
     } else if(item?.type === 4){
       const albumPath = item?.link?.split('.')[0]
       navigate(albumPath)
+    }
+    else{
+      dispatch(action.setPlaylist(null))
     }
   }
   return (
