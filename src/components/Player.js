@@ -27,6 +27,7 @@ const Player = () => {
   const [audio, setAudio] = useState(new Audio());
   const [curSeconds, setCurSeconds] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false)
+  const [isRepeat, setIsRepeat] = useState(false)
   const dispatch = useDispatch();
   const thumbRef = useRef();
   const trackef = useRef();
@@ -59,24 +60,41 @@ const Player = () => {
     intervalId && clearInterval(intervalId);
     audio.pause();
     audio.load();
-    if (isPlaying) {
+    if (isPlaying && thumbRef.current) {
       audio.play();
       intervalId = setInterval(() => {
-        let percent =
-          Math.round((audio.currentTime * 10000) / songInfo.duration) / 100;
+        let percent = Math.round((audio.currentTime * 10000) / songInfo.duration) / 100;
         thumbRef.current.style.cssText = `right: ${100 - percent}%`;
         setCurSeconds(Math.round(audio.currentTime));
       }, 100);
     }
   }, [audio]);
 
-  const handleTogglePlaying = () => {
+  useEffect(() => {
+    const handleEnded = () => {
+      if(isShuffle){
+        handleRandomSong()
+      } else if(isRepeat){
+        handleNextSong()
+      } else {
+        audio.pause()
+        dispatch(actions.play(false))
+      }
+    }
+    audio.addEventListener('ended', handleEnded)
+
+  return () => {
+    audio.removeEventListener('ended', handleEnded)
+  }
+  }, [audio, isRepeat, isShuffle])
+
+  const handleTogglePlaying = async () => {
     if (isPlaying) {
-      dispatch(actions.play(false));
       audio.pause();
+      dispatch(actions.play(false));
     } else {
-      dispatch(actions.play(true));
       audio.play();
+      dispatch(actions.play(true));
     }
   };
   const hanldeClickProgessbar = (e) => {
@@ -109,6 +127,12 @@ const Player = () => {
     }
   }
 
+  const handleRandomSong = () => {
+      dispatch(actions.setCurSongId(songs[Math.round(Math.random() * songs?.length) - 1].encodeId))
+      dispatch(actions.play(true))
+      setIsShuffle(prve => !prve)
+    }
+
   return (
     <div className="bg-main-400 px-5 h-full flex">
       <div className="w-[30%] flex-auto flex gap-3 items-center">
@@ -137,7 +161,7 @@ const Player = () => {
       <div className="w-[40%] flex-auto flex flex-col items-center gap-2 justify-center py-2">
         <div className="flex gap-8 justify-center items-center pt-5">
           <span 
-          className={`cursor-pointer ${isShuffle && 'text-main-500'}`}
+          className={`cursor-pointer ${isShuffle ? 'text-main-500' : 'text-black'}`}
           title="Bật phát ngẫu nhiên"
           onClick={() => setIsShuffle(prve => !prve)}
           >
@@ -163,7 +187,11 @@ const Player = () => {
           >
             <MdSkipNext size={24} />
           </span>
-          <span className="cursor-pointer" title="Bật phát lại tất cả">
+          <span 
+          className={`cursor-pointer ${isRepeat && 'text-main-500'}`}
+          title="Bật phát lại tất cả"
+          onClick={() => setIsRepeat(prve => !prve)}
+          >
             <CiRepeat size={24} />
           </span>
         </div>

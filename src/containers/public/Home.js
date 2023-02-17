@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header, Slider } from '../../components'
+import { Section, Slider } from '../../components'
 
 
 const Home = () => {
@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <div className='overflow-y-auto'>
       <Slider />
+      <Section />
     </div>
   )
 }
