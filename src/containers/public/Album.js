@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as apis from "../../apis";
 import moment from "moment/moment";
-import { Lists } from "../../components";
+import { Lists, AudioLoading } from "../../components";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions"
+import icons from "../../ultis/icons";
 
+const { BsFillPlayFill } = icons
 const Album = () => {
+  const { curSongId, isPlaying, songs } = useSelector((state) => state.music);
   const { title, pid } = useParams();
   const [playlistData, setplaylistData] = useState({});
   const dispatch = useDispatch()
@@ -24,12 +27,19 @@ const Album = () => {
   return (
     <div className="flex gap-8 w-full h-full px-[59px] mb-40">
       <div className="flex-none w-1/4 border border-red-500 flex flex-col items-center gap-2">
-        <img
-          src={playlistData?.thumbnailM}
-          className="w-full object-contain rounded-md shadow-md"
-        />
+        <div className="w-full relative">
+          <img
+            src={playlistData?.thumbnailM}
+            className={`${isPlaying ? 'rounded-full animate-rotate-center' : 'rounded-md animate-rotate-center-pause'} w-full object-contain shadow-md`}
+          />
+          <div className={`${isPlaying && 'hover:rounded-full'} absolute left-0 right-0 top-0 bottom-0 hover:bg-overplay-30 cursor-pointer text-white flex items-center justify-center`}>
+            <span className="p-2 border border-white rounded-full">
+               { isPlaying ? <AudioLoading /> : <BsFillPlayFill  size={30}/>}
+            </span>
+          </div>
+        </div>
         <div className="flex flex-col items-center gap-1">
-          <h3 className="text-[18px] font-bold text-gray-800">
+          <h3 className="text-[18px] font-bold text-gray-800 text-center">
             {playlistData?.title}
           </h3>
           <span className="flex gap-2 items-center text-gray-500 text-[13px]">

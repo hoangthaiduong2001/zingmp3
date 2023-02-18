@@ -19,6 +19,7 @@ const {
   GiMicrophone,
   BiWindows,
   BiVolumeFull,
+  TbRepeatOnce
 } = icons;
 var intervalId;
 const Player = () => {
@@ -27,7 +28,7 @@ const Player = () => {
   const [audio, setAudio] = useState(new Audio());
   const [curSeconds, setCurSeconds] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false)
-  const [isRepeat, setIsRepeat] = useState(false)
+  const [repeatMode, setRepeatMode] = useState(0)
   const dispatch = useDispatch();
   const thumbRef = useRef();
   const trackef = useRef();
@@ -74,8 +75,8 @@ const Player = () => {
     const handleEnded = () => {
       if(isShuffle){
         handleRandomSong()
-      } else if(isRepeat){
-        handleNextSong()
+      } else if(repeatMode){
+        repeatMode === 1 ? handleRepeatOne() : handleNextSong()
       } else {
         audio.pause()
         dispatch(actions.play(false))
@@ -86,7 +87,7 @@ const Player = () => {
   return () => {
     audio.removeEventListener('ended', handleEnded)
   }
-  }, [audio, isRepeat, isShuffle])
+  }, [audio, repeatMode, isShuffle])
 
   const handleTogglePlaying = async () => {
     if (isPlaying) {
@@ -130,8 +131,11 @@ const Player = () => {
   const handleRandomSong = () => {
       dispatch(actions.setCurSongId(songs[Math.round(Math.random() * songs?.length) - 1].encodeId))
       dispatch(actions.play(true))
-      setIsShuffle(prve => !prve)
     }
+
+  const handleRepeatOne = () => {
+    audio.play()
+  }
 
   return (
     <div className="bg-main-400 px-5 h-full flex">
@@ -188,11 +192,11 @@ const Player = () => {
             <MdSkipNext size={24} />
           </span>
           <span 
-          className={`cursor-pointer ${isRepeat && 'text-main-500'}`}
+          className={`cursor-pointer ${repeatMode && 'text-main-500'}`}
           title="Bật phát lại tất cả"
-          onClick={() => setIsRepeat(prve => !prve)}
+          onClick={() => setRepeatMode(prve => prve === 2 ? 0 : prve + 1)}
           >
-            <CiRepeat size={24} />
+            {repeatMode === 1 ? <TbRepeatOnce size={24} /> : <CiRepeat size={24} />}
           </span>
         </div>
         <div className="w-full mb-2 flex items-center justify-center gap-3 text-xs">

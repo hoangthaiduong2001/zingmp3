@@ -8,6 +8,7 @@ import { CiRepeat, CiShuffle } from 'react-icons/ci'
 import { FiMusic } from 'react-icons/fi'
 import { RxVideo} from 'react-icons/rx'
 import { BiWindows, BiVolumeFull } from 'react-icons/bi'
+import { TbRepeatOnce } from 'react-icons/tb'
 
 
 const icons = {
@@ -33,7 +34,8 @@ const icons = {
     BiWindows,
     BiVolumeFull,
     BsDot,
-    BsFillPlayFill
+    BsFillPlayFill,
+    TbRepeatOnce
 }
 
 export default icons
