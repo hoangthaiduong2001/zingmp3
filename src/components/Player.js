@@ -5,6 +5,7 @@ import icons from "../ultis/icons";
 import * as actions from "../store/actions";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { SongLoanding } from './'
 const {
   AiFillHeart,
   AiOutlineHeart,
@@ -19,26 +20,32 @@ const {
   GiMicrophone,
   BiWindows,
   BiVolumeFull,
-  TbRepeatOnce
+  TbRepeatOnce,
+  BsMusicNoteList,
+  BiVolumeMute
 } = icons;
 var intervalId;
-const Player = () => {
+const Player = ( {setIsShowRightSideBar} ) => {
   const { curSongId, isPlaying, songs } = useSelector((state) => state.music);
   const [songInfo, setsongInfo] = useState(null);
   const [audio, setAudio] = useState(new Audio());
   const [curSeconds, setCurSeconds] = useState(0);
   const [isShuffle, setIsShuffle] = useState(false)
   const [repeatMode, setRepeatMode] = useState(0)
+  const [isLoadedSource, setIsLoadedSource] = useState(true)
+  const [isVolumn, setisVolumn] = useState(100)
   const dispatch = useDispatch();
   const thumbRef = useRef();
   const trackef = useRef();
 
   useEffect(() => {
+    setIsLoadedSource(false)
     const fetchDetailSong = async () => {
       const [res1, res2] = await Promise.all([
         apis.apiGetDetailSong(curSongId),
         apis.apiGetSong(curSongId),
       ]);
+      setIsLoadedSource(true)
       if (res1.data.err === 0) {
         setsongInfo(res1.data.data);
       }
@@ -88,6 +95,10 @@ const Player = () => {
     audio.removeEventListener('ended', handleEnded)
   }
   }, [audio, repeatMode, isShuffle])
+
+  useEffect(() => {
+    audio.volume = isVolumn / 100
+  }, [isVolumn])
 
   const handleTogglePlaying = async () => {
     if (isPlaying) {
@@ -180,11 +191,7 @@ const Player = () => {
             className="p-1 border border-gray-700 cursor-pointer hover:text-main-500 rounded-full"
             onClick={handleTogglePlaying}
           >
-            {isPlaying ? (
-              <BsPauseFill size={30} />
-            ) : (
-              <BsFillPlayFill size={30} />
-            )}
+            { !isLoadedSource ? <SongLoanding /> : isPlaying ? ( <BsPauseFill size={30} />) : ( <BsFillPlayFill size={30} />)}
           </span>
           <span className={`${!songs ? 'text-gray-400' : 'cursor-pointer'}`}
           onClick={handleNextSong}
@@ -228,8 +235,19 @@ const Player = () => {
         <span className="cursor-pointer" title="Chế độ cửa sổ">
           <BiWindows size={16} />
         </span>
-        <span className="cursor-pointer">
-          <BiVolumeFull size={16} />
+        <span className="cursor-pointer flex">
+          <span onClick={() => setisVolumn(prve => prve == 0 ? 100 : 0)}>{isVolumn > 0 ? <BiVolumeFull size={16} /> : <BiVolumeMute />}</span>
+          <input 
+            type="range" 
+            step={1} 
+            min={0} 
+            max={100}
+            value={isVolumn}
+            onChange={(e) => setisVolumn(e.target.value)}
+          />
+        </span>
+        <span onClick={() => setIsShowRightSideBar(prve => !prve)} title="Danh sách phát" className="cursor-pointer p-1 rounded-sm bg-main-500 opacity-90 hover:opacity-100">
+          <BsMusicNoteList size={16}/>
         </span>
       </div>
     </div>

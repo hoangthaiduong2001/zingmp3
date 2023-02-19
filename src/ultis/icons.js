@@ -3,11 +3,11 @@ import { GrEmptyCircle } from 'react-icons/gr'
 import { GiChart, GiMicrophone } from 'react-icons/gi'
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { AiOutlineSearch, AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { BsThreeDots, BsPauseFill, BsPlayFill, BsFillPlayFill, BsDot } from 'react-icons/bs'
+import { BsThreeDots, BsPauseFill, BsPlayFill, BsFillPlayFill, BsDot, BsMusicNoteList } from 'react-icons/bs'
 import { CiRepeat, CiShuffle } from 'react-icons/ci'
 import { FiMusic } from 'react-icons/fi'
 import { RxVideo} from 'react-icons/rx'
-import { BiWindows, BiVolumeFull } from 'react-icons/bi'
+import { BiWindows, BiVolumeFull, BiVolumeMute } from 'react-icons/bi'
 import { TbRepeatOnce } from 'react-icons/tb'
 
 
@@ -35,7 +35,9 @@ const icons = {
     BiVolumeFull,
     BsDot,
     BsFillPlayFill,
-    TbRepeatOnce
+    TbRepeatOnce,
+    BsMusicNoteList,
+    BiVolumeMute
 }
 
 export default icons
