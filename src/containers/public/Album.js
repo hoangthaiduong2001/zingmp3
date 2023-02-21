@@ -3,20 +3,21 @@ import { useParams } from "react-router-dom";
 import * as apis from "../../apis";
 import moment from "moment/moment";
 import { Lists, AudioLoading } from "../../components";
-import { Scrollbars } from "react-custom-scrollbars-2";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions"
 import icons from "../../ultis/icons";
 
 const { BsFillPlayFill } = icons
 const Album = () => {
-  const { curSongId, isPlaying, songs } = useSelector((state) => state.music);
+  const { isPlaying } = useSelector((state) => state.music);
   const { title, pid } = useParams();
   const [playlistData, setplaylistData] = useState({});
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchDetailPlaylist = async () => {
+      dispatch(actions.loading(true));
       const response = await apis.apiGetDetailPlaylist(pid);
+      dispatch(actions.loading(false))
       if (response?.data.err === 0) {
         setplaylistData(response.data?.data);
         dispatch(actions.setPlaylist(response?.data?.data?.song?.items))
@@ -25,7 +26,7 @@ const Album = () => {
     fetchDetailPlaylist();
   }, [pid]);
   return (
-    <div className="flex gap-8 w-full h-full px-[59px] mb-40">
+    <div className="flex gap-8 w-full h-full px-[59px] mb-40 relative">
       <div className="flex-none w-1/4 border border-red-500 flex flex-col items-center gap-2">
         <div className="w-full relative">
           <img
@@ -56,7 +57,6 @@ const Album = () => {
           <span className="flex gap-2 items-center text-gray-500 text-[13px]">{`${playlistData?.like} người yêu thích`}</span>
         </div>
       </div>
-      <Scrollbars style={{ width: "100%", height: "80%" }}>
         <div className="flex-auto border border-blue-500">
           <span className="text-sm">
             <span className="text-gray-600">Lời tựa </span>
@@ -66,7 +66,6 @@ const Album = () => {
             totalDuration={playlistData?.song?.totalDuration}
           />
         </div>
-      </Scrollbars>
     </div>
   );
 };

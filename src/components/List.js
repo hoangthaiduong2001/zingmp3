@@ -3,10 +3,12 @@ import icons from '../ultis/icons'
 import moment from 'moment/moment'
 import { useDispatch } from 'react-redux'
 import * as actions from '../store/actions'
+import { AudioLoading } from './'
+import { useSelector } from 'react-redux'
 
-const { FiMusic } = icons
-
+const { FiMusic, BsFillPlayFill } = icons
 const List = ({ songData }) => {
+  const { isPlaying } = useSelector(state => state.music)
   const dispatch = useDispatch()
   return (
     <div 
@@ -19,7 +21,10 @@ const List = ({ songData }) => {
     >
         <div className='flex gap-3 items-center flex-1'>
             <span><FiMusic /></span>
-            <img src={songData?.thumbnail} className="w-10 h-10 object-cover rounded-md"/>
+            <img src={songData?.thumbnail} className="relative w-10 h-10 object-cover rounded-md"/>
+            <span className='absolute items-center justify-end'>             
+                {/* { isPlaying ? <AudioLoading /> : <BsFillPlayFill />} */}
+            </span>
             <span className='flex flex-col text-xs w-full'>
                 <span className='w-full font-semibold whitespace-nowrap'>{songData?.title?.length > 20 ? `${songData?.title?.slice(0, 20)}...` : songData?.title}</span>
                 <span>{songData?.artistsNames?.length > 20 ? `${songData?.artistsNames?.slice(0, 20)}...` : songData?.artistsNames}</span>
