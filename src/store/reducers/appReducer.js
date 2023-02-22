@@ -6,7 +6,8 @@ const initState = {
     autoTheme2: {},
     top100: {},
     album: [],
-    isLoading: false
+    isLoading: false,
+    newRelease: {}
 }
 
 const appReducer = (state = initState, action) => {
@@ -18,7 +19,8 @@ const appReducer = (state = initState, action) => {
                 autoTheme: action.homeData?.find(item => item.sectionId === 'hAutoTheme1') || {},
                 autoTheme2: action.homeData?.find(item => item.sectionId === 'hAutoTheme2') || {},
                 top100: action.homeData?.find(item => item.sectionId === 'h100') || {},
-                album: {...action.homeData?.find(item => item.sectionId === 'hAlbum'), title: 'Album'} || {}
+                album: {...action.homeData?.find(item => item.sectionId === 'hAlbum'), title: 'Album'} || {},
+                newRelease: action.homeData?.find(item => item.sectionType === 'new-release') || {},
             }
         case actionTypes.LOADING:
             return{

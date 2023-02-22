@@ -1,5 +1,5 @@
 import React from 'react'
-import { Section, Slider } from '../../components'
+import { Section, Slider, NewRelease } from '../../components'
 import { useSelector } from 'react-redux'
 
 const Home = () => {
@@ -9,6 +9,7 @@ const Home = () => {
       <Slider />
       <Section data={autoTheme} />
       <Section data={autoTheme2} />
+      <NewRelease />
       <Section data={top100} />
       <Section data={album} />
       <div className='w-full h-[300px]'></div>
