@@ -24,6 +24,7 @@ const Lists = ({ totalDuration}) => {
               <span>{moment.utc(totalDuration * 1000).format('hh giờ mm pút')}</span>
             </span>
         </div>
+        <div className='w-full h-[100px]'></div>
     </div>
   )
 }

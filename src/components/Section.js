@@ -21,7 +21,7 @@ const Section = ({ data }) => {
           className='flex flex-col gap-3 flex-auto w-1/5 text-sm cursor-pointer'>
             <img src={item.thumbnailM} className='w-full h-auto rounded-lg'/>
             <span className='flex flex-col'>
-              <span className='font-semibold'>{`${item.title.slice(0,15)}...`}</span>
+              <span>{data?.sectionId === 'hArtistTheme' ? <span></span> : <span className='font-semibold'>{`${item.title.slice(0,15)}...`}</span>}</span>
               <span>{data?.sectionId === 'h100' ? <span>{item.artistsNames}</span> : 
                 <span>
                   {item.sortDescription.length >= 40 ? `${item.sortDescription.slice(0,35)}...` : item.sortDescription}
