@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import * as apis from "../../apis";
 import moment from "moment/moment";
 import { Lists, AudioLoading } from "../../components";
@@ -9,6 +9,7 @@ import icons from "../../ultis/icons";
 
 const { BsFillPlayFill } = icons
 const Album = () => {
+  const location = useLocation()
   const { isPlaying } = useSelector((state) => state.music);
   const { title, pid } = useParams();
   const [playlistData, setplaylistData] = useState({});
@@ -25,6 +26,14 @@ const Album = () => {
     };
     fetchDetailPlaylist();
   }, [pid]);
+
+  useEffect(() => {
+    if(location.state?.playAlbum){
+      const randomSong = Math.round(Math.random() * playlistData?.song?.items?.length) - 1
+      dispatch(actions.setCurSongId(playlistData?.song?.items[randomSong]?.encodeId))
+      dispatch(actions.play(true))
+    }
+  }, [pid, playlistData])
   return (
     <div className="flex gap-8 w-full h-full px-[59px] mb-40 relative">
       <div className="flex-none w-1/4 border border-red-500 flex flex-col items-center gap-2">

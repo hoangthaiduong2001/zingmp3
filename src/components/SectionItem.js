@@ -1,6 +1,9 @@
 import React, { memo, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'  
+import icons from '../ultis/icons'
 
+
+const { AiOutlineHeart, BsFillPlayFill, BsThreeDots} = icons
 
 const SectionItem = ({ link, data, thumbnailM, artistsNames, sortDescription, title}) => {
     const [isHover, setIsHover] = useState(false)
@@ -20,11 +23,23 @@ const SectionItem = ({ link, data, thumbnailM, artistsNames, sortDescription, ti
   return (
     <div 
     onClick={() => {
-      navigate(link?.split('.')[0])
+      navigate(link?.split('.')[0], {state: {playAlbum: false}})
     }}
     className='flex flex-col gap-3 flex-auto w-1/5 text-sm cursor-pointer'>
       <div onMouseEnter={handleHover} onMouseLeave={handLeave} className='w-full relative overflow-hidden rounded-lg'>
-        { isHover && <div className='absolute top-0 bottom-0 left-0 right-0 z-40 bg-overplay-30 rounded-lg'></div>}
+        { isHover && <div className='absolute top-0 bottom-0 left-0 right-0 z-40 bg-overplay-30 rounded-lg text-white flex items-center justify-center gap-2'>
+          <span><AiOutlineHeart size={25}/></span>
+          <span 
+            onClick={(e) => {
+              e.stopPropagation()
+              navigate(link?.split('.')[0], {state: {playAlbum: true}})
+            }}
+            className='p-1 border border-white rounded-full'
+            >
+            <BsFillPlayFill size={35}/>
+          </span>
+          <span><BsThreeDots size={25}/></span>
+        </div>}
         <img ref={imgRef} src={thumbnailM} className='w-full h-auto rounded-lg'/>
       </div>
       <span className='flex flex-col'>
