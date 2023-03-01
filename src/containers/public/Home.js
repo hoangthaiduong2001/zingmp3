@@ -1,5 +1,5 @@
 import React from 'react'
-import { Section, Slider, NewRelease } from '../../components'
+import { Section, Slider, NewRelease, ChartSection } from '../../components'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -13,6 +13,7 @@ const Home = () => {
       <NewRelease />
       <Section data={top100} />
       <Section data={album} />
+      <ChartSection />
       <Section data={favoritedArtist}/>
       <div className='flex w-full items-center px-[43px] mt-12'>
         {weekChart?.map(item => (

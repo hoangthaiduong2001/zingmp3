@@ -9,7 +9,9 @@ const initState = {
     isLoading: false,
     newRelease: {},
     weekChart : [],
-    favoritedArtist: {}
+    favoritedArtist: {},
+    chart: {},
+    rank: []
 }
 
 const appReducer = (state = initState, action) => {
@@ -24,7 +26,9 @@ const appReducer = (state = initState, action) => {
                 album: {...action.homeData?.find(item => item.sectionId === 'hAlbum'), title: 'Album'} || {},
                 newRelease: action.homeData?.find(item => item.sectionType === 'new-release') || {},
                 weekChart: action.homeData?.find(item => item.sectionType === 'weekChart')?.items || [],
-                favoritedArtist: action.homeData?.find(item => item.sectionId === 'hArtistTheme') || {}
+                favoritedArtist: action.homeData?.find(item => item.sectionId === 'hArtistTheme') || {},
+                chart: action.homeData?.find(item => item.sectionId === 'hZC')?.chart || {},
+                rank: action.homeData?.find(item => item.sectionId === 'hZC')?.items || []
             }
         case actionTypes.LOADING:
             return{

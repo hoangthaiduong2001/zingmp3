@@ -21,7 +21,7 @@ const Lists = ({ totalDuration}) => {
             <span className='flex gap-1 items-center py-[10px] border-t border-[rgba(0,0,0,0.05)]'>
               <span>{`${songs?.length} bài hát`}</span>
               <BsDot size={24}/>
-              <span>{moment.utc(totalDuration * 1000).format('hh giờ mm pút')}</span>
+              <span>{moment.utc(totalDuration).format('MM DD YYYY')}</span>
             </span>
         </div>
         <div className='w-full h-[100px]'></div>
