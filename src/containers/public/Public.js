@@ -28,7 +28,7 @@ const Public = () => {
           </div>
         </div>
         {isShowRightSideBar && (
-          <div className="w-[329px] hidden 1100:flex flex-none border border-blue-500 animate-slide-left">
+          <div className="w-[329px] 1100:flex flex-none animate-slide-left">
             <SidebarRight />
           </div>
         )}

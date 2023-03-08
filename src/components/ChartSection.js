@@ -70,7 +70,6 @@ const ChartSection = () => {
         intersect: false
     }
 }
-  console.log(selected)
   useEffect(() => {
     const labels = chart?.times?.filter(item => +item.hour % 2 === 0)?.map(item => `${item.hour}:00`)
     const datasets = []
@@ -103,6 +102,7 @@ const ChartSection = () => {
                 <div className='flex-3 gap-4 flex flex-col'>
                     {rank?.filter((i, index) => index < 3)?.map((item, index) => (
                         <SongItem 
+                        key={item?.encodeId}
                         thumbnail={item?.thumbnail}
                         title={item?.title}
                         artists={item?.artistsNames}
