@@ -9,6 +9,7 @@ import { FiMusic } from 'react-icons/fi'
 import { RxVideo} from 'react-icons/rx'
 import { BiWindows, BiVolumeFull, BiVolumeMute } from 'react-icons/bi'
 import { TbRepeatOnce } from 'react-icons/tb'
+import { ImBin2 } from 'react-icons/im'
 
 
 const icons = {
@@ -37,7 +38,8 @@ const icons = {
     BsFillPlayFill,
     TbRepeatOnce,
     BsMusicNoteList,
-    BiVolumeMute
+    BiVolumeMute,
+    ImBin2
 }
 
 export default icons

@@ -15,6 +15,7 @@ const Album = () => {
   const [playlistData, setplaylistData] = useState({});
   const dispatch = useDispatch()
   useEffect(() => {
+    dispatch(actions.setCurAlbumId(pid))
     const fetchDetailPlaylist = async () => {
       dispatch(actions.loading(true));
       const response = await apis.apiGetDetailPlaylist(pid);

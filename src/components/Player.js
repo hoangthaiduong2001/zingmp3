@@ -47,7 +47,8 @@ const Player = ( {setIsShowRightSideBar} ) => {
       ]);
       setIsLoadedSource(true)
       if (res1.data.err === 0) {
-        setsongInfo(res1.data.data);
+        setsongInfo(res1.data.data); 
+        dispatch(actions.setCurSongData(res1.data.data))
       }
       if (res2.data.err === 0) {
         audio.pause();

@@ -14,7 +14,7 @@ const comonConfig = {
 const musicConfig = {
     ...comonConfig,
     key: 'music',
-    whitelist: ['curSongId']
+    whitelist: ['curSongId', 'curSongData', 'curAlbumId']
 }
 
 const rootReducer = combineReducers({
