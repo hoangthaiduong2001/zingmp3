@@ -16,6 +16,7 @@ const List = ({ songData }) => {
         dispatch(actions.setCurSongId(songData?.encodeId))
         dispatch(actions.play('true'))
         dispatch(actions.playAlbum(true))
+        dispatch(actions.setRecent({ thumbnail: songData?.thumbnail, title: songData?.title, artists: songData?.artistsNames, sid: songData?.encodeId}))
     }}
     className='flex justify-between items-center p-[10px] border-t border-[rgba(0,0,0,0.05)] hover:bg-[#DDE4E4] cursor-pointer'
     >

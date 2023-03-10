@@ -6,7 +6,8 @@ const initState = {
     isPlaying: false,
     atAlbum: false,
     songs: null,
-    curAlbumId: null
+    curAlbumId: null,
+    recentSongs: []
 }
 
 const musicReducer = (state = initState, action) => {
@@ -40,6 +41,11 @@ const musicReducer = (state = initState, action) => {
             return {
                 ...state,
                 curAlbumId: action.pid || null
+            }
+        case actionTypes.SET_RECENT:
+            return {
+                ...state,
+                recentSongs: action.data ? [action.data, ...state.recentSongs] : state.recentSongs
             }
         default:
             return state

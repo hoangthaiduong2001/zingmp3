@@ -6,7 +6,8 @@ const actionTypes = {
     PLAYLIST: 'PLAYLIST',
     LOADING: 'LOADING',
     SET_CUR_SONG_DATA: 'SET_CUR_SONG_DATA',
-    SET_CUR_ALBUM_ID: 'SET_CUR_ALBUM_ID'
+    SET_CUR_ALBUM_ID: 'SET_CUR_ALBUM_ID',
+    SET_RECENT: 'SET_RECENT'
 }
 
 export default actionTypes

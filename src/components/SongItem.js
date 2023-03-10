@@ -13,6 +13,7 @@ const SongItem = ({ thumbnail, title, artists, releaseDate, sid, order, percent,
       onClick={() => {
         dispatch(actions.setCurSongId(sid))
         dispatch(actions.play(true))
+        dispatch(actions.setRecent({ thumbnail, title, artists, sid }))
       }}
       >
       <div className='flex gap-4'>
