@@ -24,6 +24,9 @@ const SidebarRight = () => {
   useEffect(() => {
     if (curAlbumId && isPlaying) fetchDetailPlaylist();
   }, [curAlbumId, isPlaying]);
+  useEffect(() => {
+    isPlaying && setIsRecent(false)
+  }, [isPlaying])
   console.log(recentSongs)
   return (
     <div className="flex flex-col text-xs w-full h-full">
@@ -51,7 +54,24 @@ const SidebarRight = () => {
         </span>
       </div>
       {isRecent ? (
-        <div>Nghe gan day</div>
+        <div className="w-full flex-auto flex flex-col px-2">
+          <Scrollbars autoHide style={{ width: "100%", height: "100%" }}>
+          {recentSongs && (
+              <div className="fex flex-auto flex-col">
+                {recentSongs?.map((item) => (
+                  <SongItem
+                    key={item?.sid}
+                    thumbnail={item?.thumbnail}
+                    title={item?.title}
+                    artists={item?.artists}
+                    sid={item?.sid}
+                    sm
+                  />
+                ))}
+              </div>
+            )}
+          </Scrollbars>
+        </div>
       ) : (
         <div className="w-full flex-auto flex flex-col px-2">
           <Scrollbars autoHide style={{ width: "100%", height: "100%" }}>
@@ -91,6 +111,7 @@ const SidebarRight = () => {
           </Scrollbars>
         </div>
       )}
+      <div className="w-full h-[90px]"></div>
     </div>
   );
 };
