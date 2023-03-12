@@ -46,19 +46,24 @@ export const setRecent = (data)  => ({
     data
 })
 
-// export const fetchDetailSong = (pid) => async (dispatch) => {
-//     try {
-//         const reponse = await apis.apiGetDetailPlaylist(pid)
-//         if(reponse?.data.err === 0){
-//             dispatch({
-//                 type: actionTypes.PLAYLIST,
-//                 songs: reponse.data?.data.song?.items
-//             })
-//         }
-//     } catch (error) {
-//         dispatch({
-//            type: actionTypes.PLAYLIST,
-//            songs: null
-//         })
-//     }
-// }
+export const search = (keyword) => async (dispatch) => {
+    try {
+        const response = await apis.apiSearch(keyword)
+        if(response.data.err === 0){
+            dispatch({
+                type: actionTypes.SEARCH,
+                data: response.data.data
+            })
+        } else{
+            dispatch({
+                type: actionTypes.SEARCH,
+                data: null
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.SEARCH,
+            data: null
+        })
+    }
+}
